@@ -1,0 +1,31 @@
+# Models & data artifacts (produced by the notebook; publish to HF Hub instead of git)
+models/
+data/
+artifacts/
+*.zip
+*.parquet
+*.safetensors
+*.bin
+*.pt
+*.onnx
+
+# Notebook checkpoints / caches
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.cache/
+
+# Secrets — never commit tokens
+*.env
+.env
+hf_token*
+*token*.txt
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Claude Code local state
+.claude/
