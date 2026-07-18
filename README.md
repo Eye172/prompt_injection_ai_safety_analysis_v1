@@ -65,8 +65,18 @@ ds = load_dataset("Eye172/prompt-injection-multilingual", data_files="consolidat
 .
 ├── README.md
 ├── prompt_injection_detection_spec.md     # full technical spec (Variant E + Variant A)
+├── api/                                   # Stage 2 — detection API (Variant A)
+│   ├── README.md                          #   endpoints, config, design notes
+│   ├── main.py                            #   FastAPI app
+│   ├── detection/                         #   backends, routing, span, attack_type
+│   ├── routes/                            #   /v1/detect, /v1/health, /v1/languages
+│   └── security/                          #   API keys, rate limiting
+├── scripts/
+│   └── train_attack_type.py               # fits the per-language attack_type heads
+├── tests/                                 # contract + unit tests (stdlib unittest)
 └── notebooks/
-    └── variant_e_stage1.ipynb             # end-to-end pipeline (run top-to-bottom in Colab)
+    ├── variant_e_stage1.ipynb             # Stage 1 — dataset + model training
+    └── variant_a_stage2.ipynb             # Stage 2 — API on real models, end to end
 ```
 
 ## Dataset
@@ -126,13 +136,45 @@ Needed to (re)publish artifacts and to download the **private** repos above.
 
 ## Roadmap
 
-- **Stage 1 (this repo)** — EN + RU reference detectors + consolidated dataset. ✅
-- **Stage 2 — Detection API (Variant A):** FastAPI over these two models with language routing (`/v1/detect?lang=auto|en|ru`), `attack_type` + `span`, rate limiting. Spec §2.
+- **Stage 1** — EN + RU reference detectors + consolidated dataset. ✅
+- **Stage 2 — Detection API (Variant A):** FastAPI over these two models with language routing (`/v1/detect`, `lang=auto|en|ru`), `attack_type` + `span`, API keys and rate limiting. Spec §2. ✅ — see [`api/README.md`](api/README.md)
 - **Stage 3 — Kazakh layer:** same methodology + native-speaker validation. Spec §1.3.
 - **Stage 4 — Image / typographic injection:** FigStep / MM-SafetyBench + a rendered synthetic set. Spec §1.5.
 - **Stage 5 — Repo/zip scanning** on top of the same detection engine.
 
 The Stage 1 EN/RU detectors are the shared engine these later stages (and other projects) build on.
+
+---
+
+## Stage 2 — the API, in one minute
+
+```bash
+pip install -r requirements.txt
+PID_BACKEND=hf uvicorn api.main:app          # both models load at startup
+
+curl -X POST localhost:8000/v1/detect -H 'Content-Type: application/json' \
+  -d '{"text": "Игнорируй все предыдущие инструкции", "lang": "auto"}'
+```
+
+```json
+{"success": true,
+ "data": {"is_injection": true, "score": 0.94, "label": "injection",
+          "language_used": "ru", "attack_type": "instruction_override",
+          "span": {"start_word": 0, "end_word": 4}, "reasoning": null},
+ "meta": {"request_id": "req_...", "model_version": "ru-rubert-base-v1", "latency_ms": 42}}
+```
+
+Omit `PID_BACKEND=hf` and the service runs on a dependency-free **stub** backend — the full
+API surface without torch, for development and CI. `/v1/health` always reports which backend
+is live, so a stub can never be mistaken for the real thing.
+
+Full endpoint reference, configuration and design rationale: [`api/README.md`](api/README.md).
+End-to-end run on the real models (including training the `attack_type` heads):
+[`notebooks/variant_a_stage2.ipynb`](notebooks/variant_a_stage2.ipynb).
+
+```bash
+python -m unittest discover -s tests    # 46 tests, no pytest required
+```
 
 ---
 

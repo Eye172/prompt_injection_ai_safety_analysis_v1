@@ -1,0 +1,18 @@
+# Serving the API with the real Stage 1 models.
+#
+# For a CPU-only deployment install torch from the CPU index first, which is a
+# far smaller download than the default CUDA build:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+pydantic-settings>=2.2
+
+torch>=2.1
+transformers>=4.40
+numpy>=1.24
+
+# attack_type head (spec 2.4 step 3, option b)
+scikit-learn>=1.3
+joblib>=1.3

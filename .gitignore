@@ -8,6 +8,7 @@ artifacts/
 *.bin
 *.pt
 *.onnx
+*.joblib
 
 # Notebook checkpoints / caches
 .ipynb_checkpoints/

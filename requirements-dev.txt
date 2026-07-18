@@ -1,0 +1,11 @@
+-r requirements.txt
+
+# Pulling the Stage 1 corpus to fit the attack_type heads.
+datasets>=2.19
+huggingface_hub>=0.23
+
+# The suite is stdlib unittest, so it runs without pytest
+# (`python -m unittest discover -s tests`). pytest is optional and picks the
+# same tests up unchanged.
+pytest>=8.0
+httpx>=0.27          # required by fastapi.testclient
