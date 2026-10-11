@@ -77,3 +77,8 @@ Start with [the Stage 1 notebook](notebooks/variant_e_stage1.ipynb) and [reprodu
 [More projects](https://github.com/Eye172) · [Contact](mailto:shakh090909@gmail.com)
 
 This repository presents the product and its engineering. The Stage 1 implementation is published here. Model weights, the consolidated corpus and the follow-on API are maintained separately. Screenshots and documented experiments are identified in their captions.
+
+
+---
+
+<sub>Account history: Magitcian172 → Eye172 (same developer). [Authorship note](AUTHORSHIP.md).</sub>
