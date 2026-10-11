@@ -1,0 +1,26 @@
+{
+  "from": "Eye172/prompt-injection-detection-showcase",
+  "source_commit": "1d4f9329c02d92e28ee3e7c78177458fc2d40b07",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "e32ed66200028ea00ff8e2c9c59341e699333f95eb28b3318c63a3295a4872c9"
+    },
+    {
+      "path": "architecture.svg",
+      "sha256": "27cb912beb7e1066f4a53ea13a18c059f7cf140f5eec64a7e7aaafe5bafbc8b5"
+    },
+    {
+      "path": "cover.svg",
+      "sha256": "7e30c392fb3dd6f4f825bfc21d58b48a905068d53d41d1883f1cebe8eb30006a"
+    },
+    {
+      "path": "false-positives.svg",
+      "sha256": "f3ad8b8d01fff491abef2e2b50106d90df388c1b5bddef0d2eba2b26b24e6c85"
+    },
+    {
+      "path": "test-f1.svg",
+      "sha256": "29950224dda5a6c6f312919aeff4f6c4fec8d71eec6f0c3658564e272d4f6d0e"
+    }
+  ]
+}
